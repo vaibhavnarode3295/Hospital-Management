@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Doctor Dashboard</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <style>
+    body {
+        background: #f7f9fc;
+    }
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        background: #1d1f27;
+    }
+    .sidebar a {
+        text-decoration: none;
+        display: block;
+        padding: 10px 0;
+        color: #d7d7d7;
+    }
+    .sidebar a:hover {
+        background: #2a2d38;
+        color: white;
+        padding-left: 12px;
+        transition: 0.2s;
+    }
+    .welcome-banner {
+        background: linear-gradient(135deg, #28a745, #5be584);
+        color: white;
+        padding: 25px;
+        border-radius: 12px;
+    }
+    .card-stat {
+        border-left: 5px solid #28a745;
+        border-radius: 10px;
+        transition: 0.2s;
+    }
+    .card-stat:hover {
+        transform: scale(1.03);
+    }
+    .table-card {
+        border-radius: 12px;
+        overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Top Navbar -->
+<nav class="navbar navbar-dark bg-success px-3 shadow-sm">
+  <span class="navbar-brand fw-bold">Doctor Panel</span>
+  <div class="d-flex">
+    <span class="text-white me-3">Welcome, Dr. <span th:text="${doctor.username}"></span></span>
+    <a th:href="@{/logout}" class="btn btn-light btn-sm">Logout</a>
+  </div>
+</nav>
+
+<div class="d-flex">
+
+  <!-- Sidebar -->
+  <div class="sidebar p-3 text-white">
+    <h5 class="text-white mb-3">Menu</h5>
+    <a th:href="@{/doctor}">🏠 Dashboard</a>
+    <a th:href="@{/doctor/patients}">👥 All Patients</a>
+    <a th:href="@{/doctor/appointments}">📅 Appointments</a>
+    <a th:href="@{/doctor/profile}">👨‍⚕️ My Profile</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="p-4 w-100">
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner mb-4 shadow-sm">
+      <h2>Hello, Dr. <span th:text="${doctor.username}"></span> 👋</h2>
+      <p>Your daily overview is ready below.</p>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-4">
+        <div class="card p-3 shadow-sm card-stat">
+          <h6 class="text-muted">Today’s Patients</h6>
+          <h2 class="text-success fw-bold" th:text="${todayPatients}"></h2>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card p-3 shadow-sm card-stat" style="border-left-color:#0dcaf0;">
+          <h6 class="text-muted">Total Patients Treated</h6>
+          <h2 class="text-info fw-bold" th:text="${totalPatientsHandled}"></h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Appointment Table -->
+    <div class="card shadow-sm p-4 table-card">
+      <h4 class="mb-3 text-success">📅 Today's Appointments</h4>
+
+      <table class="table table-hover align-middle">
+        <thead class="table-success">
+        <tr>
+          <th>Time</th>
+          <th>Patient Name</th>
+          <th>Problem</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="appt : ${appointmentsToday}">
+          <td th:text="${appt.appointmentTime}"></td>
+          <td th:text="${appt.patient.username}"></td>
+          <td th:text="${appt.reason}"></td>
+          <td>
+            <a class="btn btn-sm btn-primary"
+               th:href="@{'/doctor/prescribe/' + ${appt.id}}">
+              Prescribe
+            </a>
+          </td>
+        </tr>
+
+        <tr th:if="${appointmentsToday.size()} == 0">
+          <td colspan="4" class="text-center text-muted py-3">
+            No appointments scheduled today
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

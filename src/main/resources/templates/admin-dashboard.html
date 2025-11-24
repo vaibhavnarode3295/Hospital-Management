@@ -1,0 +1,187 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <title>Admin Dashboard</title>-->
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">-->
+<!--</head>-->
+<!--<body class="bg-light">-->
+
+<!--<nav class="navbar navbar-dark bg-primary px-3">-->
+<!--  <a class="navbar-brand" href="#">Hospital Admin Panel</a>-->
+<!--  <div class="d-flex">-->
+<!--    <span class="text-white me-3">Welcome, Admin</span>-->
+<!--    <a class="btn btn-light btn-sm" th:href="@{/logout}">Logout</a>-->
+<!--  </div>-->
+<!--</nav>-->
+
+<!--<div class="d-flex">-->
+<!--  <div class="bg-dark text-white p-3" style="width: 250px; height: 100vh;">-->
+<!--    <h5>Menu</h5>-->
+<!--    <a class="d-block text-white py-2" th:href="@{/admin/doctors}">Manage Doctors</a>-->
+<!--    <a class="d-block text-white py-2" th:href="@{/admin/patients}">Manage Patients</a>-->
+<!--    <a class="d-block text-white py-2" th:href="@{/admin/seeDoctors}">Total Doctors</a>-->
+<!--    <a class="d-block text-white py-2" th:href="@{/admin/seePatients}">Total Patients</a>-->
+<!--    <a class="d-block text-white py-2" th:href="@{/admin/appointments}">Appointments</a>-->
+<!--    <a class="d-block text-white py-2" th:href="@{/admin/reports}">Reports</a>-->
+<!--  </div>-->
+
+<!--  <div class="p-4 w-100">-->
+<!--    <h3>Dashboard Overview</h3>-->
+<!--    <div class="row mt-4">-->
+<!--      <div class="col-md-3">-->
+<!--        <div class="card p-3 shadow">Total Doctors: <b th:text="${doctorCount}"></b></div>-->
+<!--      </div>-->
+<!--      <div class="col-md-3">-->
+<!--        <div class="card p-3 shadow">Total Patients: <b th:text="${patientCount}"></b></div>-->
+<!--      </div>-->
+<!--      <div class="col-md-3">-->
+<!--        <div class="card p-3 shadow">Appointments Today: <b th:text="${appointmentsToday}"></b></div>-->
+<!--      </div>-->
+<!--      <div class="col-md-3">-->
+<!--        <div class="card p-3 shadow">Monthly Revenue: INR <b th:text="${revenue}"></b></div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <style>
+    body {
+        background: #eef2f7;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 260px;
+        height: 100vh;
+        background: #0d1b2a;
+        color: white;
+    }
+
+    .sidebar a {
+        text-decoration: none;
+        color: #e0e0e0;
+        padding: 12px;
+        display: block;
+        border-radius: 5px;
+        transition: 0.2s;
+    }
+
+    .sidebar a:hover {
+        background: #1b263b;
+    }
+
+    /* Glass Cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(10px);
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        transition: transform 0.2s;
+    }
+
+    .glass-card:hover {
+        transform: scale(1.03);
+    }
+
+    /* Banner */
+    .banner {
+        background: linear-gradient(90deg, #007bff, #00d4ff);
+        padding: 30px;
+        color: white;
+        border-radius: 12px;
+    }
+
+    .stat-title {
+        font-size: 15px;
+        color: #555;
+    }
+
+    .stat-value {
+        font-size: 32px;
+        font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-primary px-3">
+  <h4 class="navbar-brand">🏥 Hospital Admin Panel</h4>
+  <div class="d-flex">
+    <span class="text-white me-3 fw-semibold">Welcome, Admin</span>
+    <a class="btn btn-light btn-sm" th:href="@{/logout}">Logout</a>
+  </div>
+</nav>
+
+<div class="d-flex">
+
+  <!-- Sidebar -->
+  <div class="sidebar p-3">
+    <h5 class="mb-3 text-center">📘 Menu</h5>
+
+    <a th:href="@{/admin/doctors}">👨‍⚕️ Manage Doctors</a>
+    <a th:href="@{/admin/patients}">🧑‍🤝‍🧑 Manage Patients</a>
+    <a th:href="@{/admin/seeDoctors}">📄 Total Doctors</a>
+    <a th:href="@{/admin/seePatients}">📄 Total Patients</a>
+    <a th:href="@{/admin/appointments}">📅 Appointments</a>
+    <a th:href="@{/admin/reports}">📊 Reports</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="p-4 w-100">
+
+    <!-- Welcome Banner -->
+    <div class="banner mb-4 shadow-sm">
+      <h2>Welcome to Admin Dashboard 🎯</h2>
+      <p>Monitor your hospital, manage all operations, and view analytics from one place.</p>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4">
+
+      <div class="col-md-3">
+        <div class="glass-card text-center">
+          <div class="stat-title">Total Doctors</div>
+          <div class="stat-value text-primary" th:text="${doctorCount}"></div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="glass-card text-center">
+          <div class="stat-title">Total Patients</div>
+          <div class="stat-value text-success" th:text="${patientCount}"></div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="glass-card text-center">
+          <div class="stat-title">Appointments Today</div>
+          <div class="stat-value text-warning" th:text="${appointmentsToday}"></div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="glass-card text-center">
+          <div class="stat-title">Monthly Revenue</div>
+          <div class="stat-value text-danger">
+             <span th:text="${revenue}"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

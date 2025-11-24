@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Today's Appointments | Doctor Panel</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f5f7fb;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #0d6efd, #63b3ff);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .appointment-card {
+            border-radius: 12px;
+            transition: 0.2s;
+        }
+
+        .appointment-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+        }
+
+        .table thead {
+            background: #0d6efd;
+            color: white;
+        }
+
+        .no-data-box {
+            padding: 50px;
+            background: white;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-dark bg-primary px-3 shadow-sm">
+    <span class="navbar-brand fw-bold">Doctor Panel</span>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- Page Header -->
+    <div class="page-header shadow-sm">
+        <h2 class="fw-bold">Today's Appointments</h2>
+        <p class="mb-0">Here are all your scheduled appointments for today.</p>
+    </div>
+
+    <!-- Appointment List -->
+    <div class="card shadow appointment-card p-4">
+
+        <table class="table table-hover align-middle">
+            <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Problem</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="appt : ${todaysAppointments}">
+                <td th:text="${appt.fullName}"></td>
+                <td th:text="${appt.age}"></td>
+                <td th:text="${appt.gender}"></td>
+                <td th:text="${appt.reason}"></td>
+                <td>
+                    <span class="badge bg-success" th:if="${appt.status == 'Schedule'}">Scheduled</span>
+                    <span class="badge bg-secondary" th:if="${appt.status != 'Schedule'}"
+                          th:text="${appt.status}"></span>
+                </td>
+                <td>
+                    <a th:href="@{'/doctor/prescribe/' + ${appt.id}}"
+                       class="btn btn-sm btn-primary">
+                        Prescribe
+                    </a>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(todaysAppointments)}">
+                <td colspan="6" class="text-center">
+                    <div class="no-data-box">
+                        <h5 class="text-muted">No appointments for today 🙁</h5>
+                        <p>Enjoy your free time!</p>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <a th:href="@{/doctor}" class="btn btn-outline-success home-btn">
+                ⬅ Back to Home
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

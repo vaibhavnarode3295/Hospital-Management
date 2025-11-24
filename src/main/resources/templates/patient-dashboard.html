@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background: rgb(201, 229, 252);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            background: rgb(13, 110, 253);
+            padding: 25px 15px;
+            color: #fff;
+            position: sticky;
+            top: 0;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.1);
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            display: block;
+            padding: 12px 15px;
+            border-radius: 10px;
+            color: #fff;
+            margin: 8px 0;
+            transition: 0.3s ease;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(6px);
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .stat-card {
+            height: 140px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 16px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 6px solid rgb(13, 110, 253);
+        }
+
+        .stat-icon {
+            font-size: 35px;
+            color: rgb(13, 110, 253);
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .welcome-title {
+            font-size: 30px;
+            font-weight: 600;
+            color: rgb(13, 110, 253);
+        }
+
+        .table thead {
+            background: rgb(13, 110, 253);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="d-flex">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4 class="mb-4 fw-bold ms-2">
+            <i class="bi bi-heart-pulse-fill"></i> HealthCare+
+        </h4>
+
+        <a th:href="@{/patient}"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+        <a th:href="@{/patient/book-appointment}"><i class="bi bi-calendar-plus me-2"></i> Book Appointment</a>
+        <a th:href="@{/patient/doctors}"><i class="bi bi-people-fill me-2"></i> Doctors</a>
+        <a th:href="@{/user/prescriptions}"><i class="bi bi-capsule-pill me-2"></i> Prescriptions</a>
+        <a th:href="@{/user/profile}"><i class="bi bi-person-circle me-2"></i> Profile</a>
+        <a th:href="@{/about}"><i class="bi bi-info-circle me-2"></i> About</a>
+        <a th:href="@{/logout}"><i class="bi bi-door-open me-2"></i> Logout</a>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="p-4 w-100">
+
+        <!-- Welcome Card -->
+        <div class="glass-card mb-4">
+            <h2 class="welcome-title">
+                Hello, <span th:text="${patient.username}">User</span> 👋
+            </h2>
+            <p class="text-secondary">Your personal health overview is here.</p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="row g-4 mb-4">
+
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div>
+                        <h4 class="text-secondary">Upcoming</h4>
+                    </div>
+                    <i class="bi bi-calendar-event stat-icon"></i>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div>
+                        <h4 class="text-secondary">Total Visits</h4>
+                    </div>
+                    <i class="bi bi-hospital stat-icon"></i>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div>
+                        <h4 class="text-secondary">Notifications</h4>
+                    </div>
+                    <i class="bi bi-bell-fill stat-icon"></i>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Appointments Section -->
+        <div class="table-card p-4">
+            <h3 class="mb-3 text-primary">
+                <i class="bi bi-calendar-check"></i> My Appointments
+            </h3>
+
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Doctor</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="appt : ${appointments}">
+                    <td th:text="${appt.appointmentDate}"></td>
+                    <td th:text="${appt.doctor.username}"></td>
+                    <td th:text="${appt.reason}"></td>
+                    <td th:text="${appt.status}"></td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(appointments)}">
+                    <td colspan="4" class="text-center py-3 text-secondary">
+                        No upcoming appointments
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

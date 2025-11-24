@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Success</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .success-card {
+            background: #ffffff;
+            width: 550px;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.12);
+            text-align: center;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        .success-icon {
+            font-size: 60px;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        .btn-primary {
+            border-radius: 8px;
+            font-weight: 600;
+            padding: 10px 18px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="success-card">
+    <div class="success-icon">✔</div>
+
+    <h2 class="text-success">Appointment Booked Successfully!</h2>
+
+    <p class="mt-2 text-muted">
+        Thank you! Your appointment has been scheduled.<br>
+        Our doctor will attend you at the selected time.
+    </p>
+
+    <div class="mt-4">
+        <a th:href="@{/patient}" class="btn btn-primary">Go to Dashboard</a>
+        <a th:href="@{/patient/appointment}" class="btn btn-outline-primary ms-2">Book Another Appointment</a>
+    </div>
+</div>
+
+</body>
+</html>
+

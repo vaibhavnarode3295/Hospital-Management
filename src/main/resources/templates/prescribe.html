@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Treat Patient</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        min-height: 100vh;
+        padding-bottom: 40px;
+    }
+    .treat-box {
+        max-width: 900px;
+        margin: 50px auto;
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    .section-title {
+        font-weight: 700;
+        color: #1976d2;
+        margin-bottom: 15px;
+        border-left: 4px solid #1976d2;
+        padding-left: 10px;
+    }
+    .btn-primary {
+        padding: 12px;
+        border-radius: 10px;
+        font-weight: 600;
+    }
+    .info-box {
+        background: #f1f8ff;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-primary px-3 shadow-sm">
+  <span class="navbar-brand fw-bold">Doctor Panel</span>
+</nav>
+
+<div class="container">
+
+  <div class="treat-box">
+
+    <h2 class="text-center mb-4">Treat Patient</h2>
+
+    <!-- Patient Info -->
+    <div class="info-box">
+      <h5 class="section-title">Patient Information</h5>
+
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Name:</strong> <span th:text="${appointment.fullName}"></span>
+        </div>
+        <div class="col-md-4">
+          <strong>Age:</strong> <span th:text="${appointment.age}"></span>
+        </div>
+        <div class="col-md-4">
+          <strong>Gender:</strong> <span th:text="${appointment.gender}"></span>
+        </div>
+      </div>
+
+      <div class="mt-2">
+        <strong>Problem:</strong>
+        <p th:text="${appointment.reason}"></p>
+      </div>
+    </div>
+
+    <!-- Prescription Form -->
+    <form th:action="@{/doctor/savePrescription}" method="post" th:object="${prescription}">
+
+      <input type="hidden" name="appointment" th:value="${appointment.id}">
+      <input type="hidden" name="patientId" th:value="${appointment.patient.id}">
+      <input type="hidden" name="doctorId" th:value="${appointment.doctor.id}">
+
+      <h5 class="section-title">Prescription Details</h5>
+
+      <!-- Medicines -->
+      <div class="mb-3">
+        <label class="form-label">Medicines (comma separated)</label>
+        <textarea th:field="*{medicines}" class="form-control" rows="3"
+                  placeholder="Example: Paracetamol 500mg, Dolo 650, Azithromycin 250"></textarea>
+      </div>
+
+      <!-- Tests -->
+      <div class="mb-3">
+        <label class="form-label">Recommended Tests (optional)</label>
+        <textarea th:field="*{tests}" class="form-control" rows="2"
+                  placeholder="Example: CBC, Blood Sugar, Chest X-ray"></textarea>
+      </div>
+
+      <!-- Advice -->
+      <div class="mb-3">
+        <label class="form-label">Doctor Advice</label>
+        <textarea th:field="*{advice}" class="form-control" rows="2"
+                  placeholder="Example: Drink more water, take rest, avoid cold food"></textarea>
+      </div>
+
+      <!-- Follow-up -->
+      <div class="mb-3">
+        <label class="form-label">Follow-up Date</label>
+        <input type="date" th:field="*{followUpDate}" class="form-control">
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 mt-3">Submit Prescription</button>
+
+    </form>
+
+    <div class="text-center mt-3">
+      <a class="btn btn-outline-secondary" th:href="@{/doctor}">
+        ⬅ Back to Dashboard
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register | Hospital Management System</title>
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #B0C4DE;
+        }
+        .register-card {
+            max-width: 450px;
+            margin: 60px auto;
+            padding: 30px;
+            background: #F8F8F8;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .btn-primary {
+            width: 100%;
+        }
+        .form-select {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-card">
+    <h3 class="text-center mb-4">Create Doctor</h3>
+
+    <form th:action="@{/registerDoctor}" method="post" th:object="${doctor}">
+        <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" th:field="*{username}" class="form-control" placeholder="Enter username" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="text" th:field="*{email}" class="form-control" placeholder="Enter email" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Specialization</label>
+            <input type="text" th:field="*{specialization}" class="form-control" placeholder="Enter specialization" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" th:field="*{password}" class="form-control" placeholder="Enter password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-3">Create</button>
+    </form>
+
+</div>
+
+</body>
+</html>
