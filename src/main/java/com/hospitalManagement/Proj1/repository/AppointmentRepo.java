@@ -30,4 +30,7 @@ public interface AppointmentRepo extends JpaRepository<Appointment,Long> {
 
     @Query("SELECT a FROM Appointment a WHERE a.doctor.id = :doctorId AND a.status = 'Treted'")
     List<Appointment> getAllTreatedPatientsByDoctorId(Long doctorId);
+
+    @Query("SELECT a FROM Appointment a WHERE a.patient.id = :patientId AND a.status = 'Schedule' AND a.appointmentDate = :currentDate")
+    List<Appointment> findAllAppointmentByPatientIdAndStatusAndAppointmentDate(Long patientId, String status, LocalDate currentDate);
 }

@@ -49,4 +49,11 @@ public class DoctorService {
          List<Appointment> list=appointmentRepo.getAllTreatedPatientsByDoctorId(id);
          return list;
      }
+
+     public void setDoctorStatus(Long id, String status)
+     {
+         Doctors doctors=doctorRepo.findById(id).orElseThrow(()->new IllegalArgumentException("Doctor Not Found"));
+         doctors.setStatus(status);
+         doctorRepo.save(doctors);
+     }
 }

@@ -23,6 +23,7 @@ public class Appointment {
     private String appointmentTime;
     private String status;
     private String specification;
+    private String roomId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)

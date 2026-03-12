@@ -1,5 +1,6 @@
 package com.hospitalManagement.Proj1.service;
 
+import com.hospitalManagement.Proj1.model.Appointment;
 import com.hospitalManagement.Proj1.model.Doctors;
 import com.hospitalManagement.Proj1.model.Patients;
 import com.hospitalManagement.Proj1.repository.DoctorRepo;
@@ -16,6 +17,8 @@ public class PatientService {
     private PatientRepo patientRepo;
     @Autowired
     private DoctorRepo doctorRepo;
+    @Autowired
+    private AppointmentService appointmentService;
 
     public Patients findPatinet(String username)
     {
@@ -41,6 +44,13 @@ public class PatientService {
     public Patients findPatientById(Long id)
     {
         return patientRepo.findById(id).orElseThrow();
+    }
+
+    public List<Appointment> todayAppointment(String username){
+        Patients patients=findPatinet(username);
+        System.out.println("Patient name is "+patients.getUsername()+" and id is: "+patients.getId());
+        List<Appointment> appointmentList= appointmentService.findAppointmentSchedule(patients.getId());
+        return appointmentList;
     }
 
 }

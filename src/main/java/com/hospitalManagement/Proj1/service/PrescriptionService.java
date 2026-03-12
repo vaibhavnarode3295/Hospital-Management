@@ -23,7 +23,7 @@ public class PrescriptionService {
 
     public List<Prescription> getList(Long id)
     {
-        List<Prescription> list = prescriptionRepo.findByPatientId(id);
+        List<Prescription> list = prescriptionRepo.findByPatientIdOrderByDateIssuedDesc(id);
         return list;
     }
 

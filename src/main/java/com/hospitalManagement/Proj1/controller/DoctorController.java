@@ -61,7 +61,7 @@ public class DoctorController {
     @GetMapping("/doctor/prescribe/{id}")
     public String prescribe(@PathVariable Long id,Model model)
     {
-        List<Appointment> appointment=appointmentService.findAppointment(id);
+        Appointment appointment=appointmentService.findAppointment(id);
         model.addAttribute("appointment",appointment);
         Prescription prescription=new Prescription();
         model.addAttribute("prescription",prescription);
@@ -79,5 +79,18 @@ public class DoctorController {
         return"prescription-success";
     }
 
+    @GetMapping("/doctor/profile")
+    public String profile(Model model, Principal principal)
+    {
+        Doctors doctors=doctorService.findRecord(principal.getName());
+        model.addAttribute("doctor",doctors);
+        return "doctor-status";
+    }
 
+    @PostMapping("/doctor/updateStatus")
+    public String updateStatus(@ModelAttribute Doctors doctor)
+    {
+        doctorService.setDoctorStatus(doctor.getId(), doctor.getStatus());
+        return "redirect:/doctor";
+    }
 }

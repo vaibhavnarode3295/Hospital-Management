@@ -1,6 +1,6 @@
 package com.hospitalManagement.Proj1.controller;
 
-import ch.qos.logback.classic.encoder.JsonEncoder;
+import com.hospitalManagement.Proj1.model.LoginVO;
 import com.hospitalManagement.Proj1.model.Users;
 import com.hospitalManagement.Proj1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login()
+    public String login(Model model)
     {
         return "login";
     }
@@ -44,9 +44,29 @@ public class UserController {
     public String saveUser(@ModelAttribute Users users)
     {
         userService.addUser(users);
-//        return "redirect:/user/home";
-        return "dashboard";
+        return "redirect:/login";
     }
+//    @PostMapping("/login")
+//    public String loginToDashboard(Authentication Authentication, @ModelAttribute LoginVO loginVO){
+//
+//
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String role = authentication.getAuthorities().stream()
+//                .map(GrantedAuthority::getAuthority)
+//                .findFirst()
+//                .orElse("NO_ROLE");
+//        System.out.println("Role of user is -----> "+role);
+//
+//        if(role.equalsIgnoreCase("ROLE_USER"))
+//            return "patient-dashboard";
+//        if(role.equalsIgnoreCase("ROLE_DOCTOR"))
+//            return "doctor-dashboard";
+//        if(role.equalsIgnoreCase("ROLE_ADMIN"))
+//            return "admin-dashboard";
+//        else
+//            return "blank-page";
+//
+//    }
 
     @GetMapping("/session-expired")
     public String sessionExpired() {

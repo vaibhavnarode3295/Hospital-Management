@@ -71,6 +71,7 @@
                 <th>Problem</th>
                 <th>Status</th>
                 <th>Action</th>
+                <th>Consult</th>
             </tr>
             </thead>
 
@@ -92,10 +93,15 @@
                         Prescribe
                     </a>
                 </td>
+                <td>
+                    <a th:href="@{/video-call(room=${appt.roomId})}">
+                        Start Consultation
+                    </a>
+                </td>
             </tr>
 
             <tr th:if="${#lists.isEmpty(todaysAppointments)}">
-                <td colspan="6" class="text-center">
+                <td colspan="7" class="text-center">
                     <div class="no-data-box">
                         <h5 class="text-muted">No appointments for today 🙁</h5>
                         <p>Enjoy your free time!</p>

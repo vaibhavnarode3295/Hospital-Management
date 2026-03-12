@@ -31,7 +31,7 @@ public class PatientController {
     public String dashboard(Model model, Principal principal)
     {
         Patients patient = patientService.findPatinet(principal.getName());
-        List<Appointment> appointment=appointmentService.findAppointment(patient.getId());
+        List<Appointment> appointment=appointmentService.findAppointmentForPatient(patient.getId());
         model.addAttribute("patient",patient);
         model.addAttribute("appointments",appointment);
         return "patient-dashboard";
@@ -73,5 +73,12 @@ public class PatientController {
         List<Prescription> list = prescriptionService.getList(patients.getId());
         model.addAttribute("prescriptions",list);
         return "prescription";
+    }
+
+    @GetMapping("/patient/today's-appointment")
+    public String pendingAppointment(Model model, Principal principal){
+        List<Appointment> list=patientService.todayAppointment(principal.getName());
+        model.addAttribute("list",list);
+        return "today's-Appointment";
     }
 }

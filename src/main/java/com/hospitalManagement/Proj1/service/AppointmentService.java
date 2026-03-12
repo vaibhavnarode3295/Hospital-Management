@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AppointmentService {
@@ -26,7 +28,8 @@ public class AppointmentService {
             System.out.println("You enter in appointment object");
             List<Doctors> doctorslist = doctorRepo.findBySpecializationAndStatus(specification,"Available");
             if(doctorslist == null || doctorslist.isEmpty()) {
-                throw new IllegalArgumentException("No available doctor found for this specialization");
+//                throw new IllegalArgumentException("No available doctor found for this specialization");
+                return false;
             }
 
             Integer minValue;
@@ -58,6 +61,8 @@ public class AppointmentService {
             app.setPatient(patients);
             app.setStatus("Schedule");
 
+            UUID uniqueId = UUID.randomUUID();
+            app.setRoomId(uniqueId.toString());
             appointmentRepo.save(app);
 
             return true;
@@ -68,15 +73,37 @@ public class AppointmentService {
         }
     }
 
-    public List<Appointment> findAppointment(Long id) {
-       List<Appointment> list= appointmentRepo.findAppointmentByPatientId(id);
-       return list;
+    public Appointment findAppointment(Long id) {
+       Optional<Appointment> appointment= appointmentRepo.findById(id);
+       if(appointment.isPresent()){
+           return appointment.get();
+       }
+       else {
+           throw new IllegalArgumentException("Invalid Id for appointment");
+       }
+    }
+
+    public List<Appointment> findAppointmentForPatient(Long id){
+        List<Appointment> appointmentList = appointmentRepo.findAppointmentByPatientId(id);
+        return appointmentList;
     }
 
     public List<Appointment> findTodaysAppointmentOfDoctor(Long id)
     {
         LocalDate currentDate= LocalDate.now();
         List<Appointment> appointmentList=appointmentRepo.findTodayAppointmentsForDoctor(currentDate,id);
+        return appointmentList;
+    }
+
+    public List<Appointment> findAppointmentSchedule(Long id){
+        LocalDate currentDate = LocalDate.now();
+        System.out.println("Todays Date is "+currentDate);
+        String status = "Schedule";
+        List<Appointment> appointmentList = appointmentRepo.
+                findAllAppointmentByPatientIdAndStatusAndAppointmentDate(id,status,currentDate);
+
+        System.out.println("List is "+appointmentList.isEmpty());
+        System.out.println("Appointment is trying to fetch");
         return appointmentList;
     }
 
